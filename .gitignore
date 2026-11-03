@@ -1,0 +1,9 @@
+# local tooling and design-check output
+.claude/
+.taste-skill/
+.vercel/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

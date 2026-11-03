@@ -1,0 +1,22 @@
+[
+ {
+  "file": "assets/pexels-living-room-pool-18531410.mp4",
+  "media": "video",
+  "poster": "assets/pexels-living-room-pool-18531410-poster.jpg",
+  "ref": "pexels:18531410",
+  "title": "The living room has a large flat screen tv and a pool",
+  "creator": "Abdullah",
+  "license": "Pexels License (free for commercial use, credit not required)",
+  "licenseUrl": "https://www.pexels.com/license/",
+  "creditRequired": false,
+  "page": "https://www.pexels.com/video/the-living-room-has-a-large-flat-screen-tv-and-a-pool-18531410/",
+  "via": "Pexels",
+  "video": "https://videos.pexels.com/video-files/18531410/18531410-hd_1920_1080_60fps.mp4",
+  "width": 1920,
+  "height": 1080,
+  "duration": 11,
+  "bytes": 8654353,
+  "credit": "\"The living room has a large flat screen tv and a pool\" by Abdullah, via Pexels",
+  "saved": "2026-11-01"
+ }
+]
