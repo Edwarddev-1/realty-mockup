@@ -3,17 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#132131" />
   <title>Keyhaven Realty · Fine homes, and part of the fee back</title>
   <meta name="description" content="Keyhaven Realty is a buyer's brokerage for premium homes. One team for agent, loan and title, and 25% of our commission credited back to you at closing." />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <script src="site.js?v=30"></script>
+  <link rel="expect" href="#page-end" blocking="render" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Geist:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="preload" as="image" href="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80" />
-  <link rel="stylesheet" href="styles.css?v=28" />
+  <link rel="stylesheet" href="styles.css?v=30" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -48,7 +51,7 @@
           <p>A buyer's brokerage for premium homes. Agent, loan and title in one team, and 25% of our commission credited to you at closing.</p>
         </div>
         <div class="hero-act">
-          <div class="listing" aria-live="polite">
+          <div class="listing" aria-live="off">
             <p class="listing-name">Casa Arenal, Montecito CA</p>
             <p class="listing-price">$8,450,000</p>
             <p class="listing-credit">≈ $52,800 back to you at closing</p>
@@ -246,6 +249,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="main.js?v=28"></script>
+  <script src="homes.js?v=30"></script>
+  <script src="main.js?v=30"></script>
+  <span id="page-end" hidden></span>
 </body>
 </html>

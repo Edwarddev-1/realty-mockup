@@ -3,16 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#132131" />
   <title>Casa Arenal, Montecito · Keyhaven Realty</title>
   <meta name="description" content="Casa Arenal: a five-bedroom villa in Montecito, California, offered through Keyhaven Realty with 25% of our commission credited to the buyer at closing." />
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
+  <script src="site.js?v=30"></script>
+  <link rel="expect" href="#page-end" blocking="render" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Geist:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=28" />
+  <link rel="stylesheet" href="styles.css?v=30" />
 </head>
 <body class="page-home">
   <a class="skip" href="#main">Skip to content</a>
@@ -33,7 +36,7 @@
     <!-- the house, full bleed, captioned with its price -->
     <section class="hero home-hero" aria-labelledby="home-title">
       <div class="hero-photos" aria-hidden="true">
-        <img class="is-on" data-bind="hero" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80" alt="" width="2400" height="1600" fetchpriority="high" />
+        <img class="is-on" data-bind="hero" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80" alt="" width="2400" height="1600" fetchpriority="high" decoding="sync" />
       </div>
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="hero-foot">
@@ -167,7 +170,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="homes.js?v=28"></script>
-  <script src="home.js?v=28"></script>
+  <script src="homes.js?v=30"></script>
+  <script src="home.js?v=30"></script>
+  <span id="page-end" hidden></span>
 </body>
 </html>

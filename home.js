@@ -53,10 +53,12 @@
   const monthly = (loan, rate) => { const r = rate / 12; return (loan * r) / (1 - Math.pow(1 + r, -360)); };
   const updateLoan = () => {
     const pct = +down.value;
+    down.style.setProperty('--fill', `${((pct - down.min) / (down.max - down.min)) * 100}%`);
     const loan = price * (1 - pct / 100);
     const market = monthly(loan, 0.0675);
     const ours = monthly(loan, 0.065);
     $('#down-out').textContent = `${pct}%, ${money(price * pct / 100)}`;
+    down.setAttribute('aria-valuetext', `${pct}%, ${money(price * pct / 100)}`);
     $('#loan-amount').textContent = money(loan);
     $('#loan-market').textContent = money(market);
     $('#loan-ours').textContent = money(ours);
@@ -82,15 +84,25 @@
   document.documentElement.classList.add('motion');
 
   /* ---------- Arrival ---------- */
-  gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.3 } })
-    .from('.hero-photos img', { scale: 1.12, duration: 2.4 }, 0)
-    .from('.home-hero h1', { y: 48 }, 0.1)
+  // the headline rises from behind its own edge
+  const heading = $('.home-hero h1');
+  const headingLine = document.createElement('span');
+  headingLine.className = 'rise-line';
+  headingLine.append(...heading.childNodes);
+  heading.append(headingLine);
+  heading.classList.add('rise-mask');
+  const barItems = window.matchMedia('(min-width: 681px)').matches ? ['.wordmark', '.bar-links'] : ['.wordmark'];
+  const arrival = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.3 } });
+  // a photograph that has just travelled here from the last page is already in place
+  if (!document.documentElement.classList.contains('kh-morphing')) arrival.from('.hero-photos img', { scale: 1.12, duration: 2.4 }, 0);
+  arrival
+    .from(headingLine, { yPercent: 105, duration: 1.4 }, 0.1)
     .from('.hero-text p', { y: 24, opacity: 0 }, 0.3)
     .from('.hero-act > *', { y: 24, opacity: 0, stagger: 0.08 }, 0.45)
-    .from(['.wordmark', '.bar-links'], { y: -16, opacity: 0, stagger: 0.06, duration: 1 }, 0.2)
+    .from(barItems, { y: -16, opacity: 0, stagger: 0.06, duration: 1, clearProps: 'transform,opacity' }, 0.2)
     .from('.cta-bar', { opacity: 0, duration: 1 }, 0.32);
 
-  gsap.timeline({ scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: true } })
+  gsap.timeline({ scrollTrigger: { trigger: '.home-hero', start: 'top top', end: 'bottom top', scrub: 0.4 } })
     .fromTo('.home-hero', { clipPath: 'inset(0px 0px 0px 0px round 0px)' }, { clipPath: 'inset(0px 10px 0px 10px round 0px 0px 24px 24px)', ease: 'none' }, 0)
     .to('.hero-photos', { yPercent: 14, ease: 'none' }, 0)
     .to('.hero-foot', { y: -90, opacity: 0, ease: 'none' }, 0);
@@ -113,21 +125,23 @@
   /* ---------- Entrances ---------- */
   ScrollTrigger.batch('[data-rise]', {
     start: 'top 88%', once: true,
-    onEnter: (els) => gsap.from(els, { y: 28, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: true }),
+    onEnter: (els) => gsap.from(els, { y: 28, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: 'auto' }),
   });
 
   /* ---------- Rooms open from a smaller frame as they arrive ---------- */
   $$('.room-img').forEach((el) => {
-    gsap.fromTo(el, { clipPath: 'inset(10% 8% 10% 8% round 14px)' }, {
-      clipPath: 'inset(0% 0% 0% 0% round 14px)', duration: 1.2, ease: 'expo.out',
+    const r = getComputedStyle(el).borderTopLeftRadius;
+    gsap.fromTo(el, { clipPath: `inset(10% 8% 10% 8% round ${r})` }, {
+      clipPath: `inset(0% 0% 0% 0% round ${r})`, clearProps: 'clipPath', duration: 1.2, ease: 'expo.out',
       scrollTrigger: { trigger: el, start: 'top 92%', once: true },
     });
-    gsap.fromTo($('img', el), { scale: 1.2 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true } });
+    gsap.fromTo($('img', el), { scale: 1.2 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
   });
 
   /* ---------- The next house grows to the full width ---------- */
-  gsap.fromTo('.next-link', { clipPath: 'inset(6% 6% 6% 6% round 16px)' }, {
-    clipPath: 'inset(0% 0% 0% 0% round 24px)', duration: 1.3, ease: 'expo.out',
+  const nextRadius = getComputedStyle($('.next-link')).borderTopLeftRadius;
+  gsap.fromTo('.next-link', { clipPath: `inset(6% 6% 6% 6% round ${nextRadius})` }, {
+    clipPath: `inset(0% 0% 0% 0% round ${nextRadius})`, clearProps: 'clipPath', duration: 1.3, ease: 'expo.out',
     scrollTrigger: { trigger: '.next', start: 'top 85%', once: true },
   });
 
