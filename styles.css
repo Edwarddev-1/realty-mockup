@@ -27,7 +27,9 @@
   --r-md: clamp(10px, 1vw, 16px);    /* photographs and panels */
   --r-sm: 6px;                        /* buttons and price tags */
 
-  --margin: max(clamp(20px, 4vw, 64px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  /* content never runs wider than --frame: on big and ultrawide screens the margins grow instead of everything else */
+  --frame: 1720px;
+  --margin: max(clamp(20px, 4vw, 64px), calc((100vw - var(--sbw, 0px) - var(--frame)) / 2), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --gap: clamp(16px, 2vw, 32px);
@@ -413,6 +415,10 @@ main img:not(.near-photo) { filter: saturate(.88) contrast(1.04); }
 
 /* Without script, the held section reads as a plain list */
 .no-js .how-frame img:not(:first-child) { display: none; }
+
+/* no photograph is ever taller than the screen it is seen on; wider screens crop it gently instead */
+.frame-img img, .intro-photo img, .intro-photo-b img, .keep-photo img, .about-detail-img img, .room-img img, .contact-photo img { max-height: 80svh; }
+.frame-lifted .frame-img img { max-height: 74svh; }
 
 /* a photograph still on its way: its frame's colour shows, then it fades up */
 .photo-fade { transition: opacity .7s var(--ease); }

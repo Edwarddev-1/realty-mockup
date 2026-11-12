@@ -7,6 +7,12 @@
     del: (k) => { try { sessionStorage.removeItem(k); } catch (e) {} },
   };
 
+  /* ---------- The page frame: margins are measured inside the scrollbar, so both sides match ---------- */
+  const setScrollbar = () => document.documentElement.style.setProperty('--sbw', `${window.innerWidth - document.documentElement.clientWidth}px`);
+  document.addEventListener('DOMContentLoaded', setScrollbar);
+  window.addEventListener('load', setScrollbar);
+  window.addEventListener('resize', setScrollbar, { passive: true });
+
   /* ---------- Photographs: nothing pops in; each one fades up when it is ready to paint ---------- */
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('img').forEach((img) => {
