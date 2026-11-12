@@ -15,6 +15,7 @@ window.KEYHAVEN_HOMES = (() => {
       ],
       features: ['Pocketing glass walls on the ground floor', '60-foot heated lap pool', 'Principal suite with a terrace and two dressing rooms', 'Outdoor kitchen under a cedar canopy', 'Three-car garage with EV charging', 'Solar array and whole-house battery'],
       hero: u('1613490493576-7fde63acd811', 2400),
+      detail: [0.45, 0.3, 2.2],
       gallery: [
         [u('1600607688969-a5bfcd646154', 1600, 1000), 'The garden front at dusk'],
         [u('1600573472550-8090b5e0745e', 900, 1125), 'Double-height living room'],
@@ -35,6 +36,7 @@ window.KEYHAVEN_HOMES = (() => {
       ],
       features: ['Charred-cedar cladding', 'Kitchen with a walk-in pantry', 'Separate studio over the garage', 'Screened porch with a fireplace', 'Native-planted garden on drip irrigation'],
       hero: u('1600047509358-9dc75507daeb', 2400),
+      detail: [0.72, 0.45, 2.4],
       gallery: [
         [u('1600047509807-ba8f99d2cdde', 1600, 1000), 'The street front'],
         [u('1600585154526-990dced4db0d', 900, 1125), 'Living room in the evening'],
@@ -55,6 +57,7 @@ window.KEYHAVEN_HOMES = (() => {
       ],
       features: ['Floor-to-ceiling glass under a deep roof', 'Pool, spa and ramada', 'Wine room for 600 bottles', 'Guest casita', 'Courtyard gardens on every side'],
       hero: u('1602343168117-bb8ffe3e2e9f', 2400),
+      detail: [0.74, 0.46, 2.4],
       gallery: [
         [u('1613977257363-707ba9348227', 1600, 1000), 'The pool terrace'],
         [u('1564078516393-cf04bd966897', 900, 1125), 'The great room at dusk'],
@@ -75,6 +78,7 @@ window.KEYHAVEN_HOMES = (() => {
       ],
       features: ['Limestone and slate exterior', 'Library and panelled study', 'Dining room for fourteen', 'Lower level with cinema and gym', 'Orchard, pond and lawns'],
       hero: u('1505843513577-22bb7d21e455', 2400),
+      detail: [0.5, 0.36, 3.2],
       gallery: [
         [u('1600563438938-a9a27216b4f5', 1600, 1000), 'The house from the lawn'],
         [u('1615873968403-89e068629265', 900, 1125), 'The study'],

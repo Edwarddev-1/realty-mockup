@@ -18,6 +18,24 @@
     });
   });
 
+  /* ---------- Tall screens get a tall crop of each landscape photograph, so it stays sharp instead of being stretched ---------- */
+  window.khPortrait = (url, ratio = 2.2, fy = 0.6) => {
+    const base = url.replace(/&w=\d+/, '').replace(/&q=\d+/, '');
+    return [640, 828, 1170, 1290].map((w) => `${base}&crop=focalpoint&fp-x=0.5&fp-y=${fy}&w=${w}&h=${Math.round(w * ratio)}&q=75 ${w}w`).join(', ');
+  };
+  window.khPortraitQuery = '(max-aspect-ratio: 4/5)';
+  // swap an <img> for a <picture> whose portrait source the browser picks on tall screens
+  window.khArtDirect = (img, url, ratio, fy) => {
+    if (!img || img.parentElement.tagName === 'PICTURE') return;
+    const pic = document.createElement('picture');
+    const source = document.createElement('source');
+    source.media = window.khPortraitQuery;
+    source.sizes = '100vw';
+    source.srcset = window.khPortrait(url, ratio, fy);
+    img.replaceWith(pic);
+    pic.append(source, img);
+  };
+
   if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('onpagereveal' in window)) return;
 
   /* ---------- The clicked photograph carries through to the next page ---------- */
@@ -85,7 +103,13 @@
     const home = link && (window.KEYHAVEN_HOMES || []).find((h) => h.id === idOf(link.href));
     if (!home || fetched.has(home.id)) return;
     fetched.add(home.id);
-    new Image().src = home.hero;
+    // ask with the same widths the next page's hero offers, so the browser fetches the file it will use
+    const img = new Image();
+    img.sizes = '100vw';
+    img.srcset = matchMedia(window.khPortraitQuery).matches
+      ? window.khPortrait(home.hero, 2.2, 0.6)
+      : [828, 1280, 1920, 2400].map((w) => `${home.hero.replace('w=2400', `w=${w}`)} ${w}w`).join(', ');
+    img.src = home.hero;
   };
   ['pointerover', 'pointerdown', 'focusin'].forEach((type) => document.addEventListener(type, reach, { passive: true }));
 })();

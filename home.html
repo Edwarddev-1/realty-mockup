@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#132131" />
   <title>Casa Arenal, Montecito · Keyhaven Realty</title>
   <meta name="description" content="Casa Arenal: a five-bedroom villa in Montecito, California, offered through Keyhaven Realty with 25% of our commission credited to the buyer at closing." />
@@ -10,12 +10,12 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <script src="site.js?v=30"></script>
+  <script src="site.js?v=34"></script>
   <link rel="expect" href="#page-end" blocking="render" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Geist:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=30" />
+  <link rel="stylesheet" href="styles.css?v=34" />
 </head>
 <body class="page-home">
   <a class="skip" href="#main">Skip to content</a>
@@ -36,7 +36,7 @@
     <!-- the house, full bleed, captioned with its price -->
     <section class="hero home-hero" aria-labelledby="home-title">
       <div class="hero-photos" aria-hidden="true">
-        <img class="is-on" data-bind="hero" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80" alt="" width="2400" height="1600" fetchpriority="high" decoding="sync" />
+        <img class="is-on" data-bind="hero" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80" srcset="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=828&q=80 828w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1280&q=80 1280w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1920&q=80 1920w, https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2400&q=80 2400w" sizes="100vw" alt="" width="2400" height="1600" fetchpriority="high" decoding="sync" />
       </div>
       <div class="hero-scrim" aria-hidden="true"></div>
       <div class="hero-foot">
@@ -57,8 +57,8 @@
 
     <!-- the facts, as figures -->
     <section class="figures" aria-labelledby="facts-title">
-      <div class="grid">
-        <h2 id="facts-title" class="facts-title">The house in figures</h2>
+      <div class="figures-panel grid">
+        <h2 id="facts-title" class="facts-title" data-rise>The house in figures</h2>
         <dl class="facts-list" data-bind="facts">
           <div><dt>bedrooms</dt><dd>5</dd></div>
           <div><dt>bathrooms</dt><dd>6</dd></div>
@@ -77,8 +77,12 @@
           <p>Casa Arenal was drawn as one long room that opens to the garden: the living and dining floor runs the length of the pool, and every pane of the ground floor slides away in summer.</p>
           <p>Upstairs, the principal suite looks over the canopy towards the Channel Islands. The cedar soffits and travertine floors carry from inside to out without a step.</p>
         </div>
-        <div class="about-features" data-rise>
-          <h3>What it has</h3>
+        <figure class="about-detail">
+          <div class="about-detail-img"><img data-bind="detail" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&crop=focalpoint&fp-x=0.45&fp-y=0.3&fp-z=2.2&w=720&h=900&q=80" alt="Casa Arenal up close: cedar soffit and glass" width="720" height="900" loading="lazy" /></div>
+          <figcaption data-bind="detail-cap">Casa Arenal, up close</figcaption>
+        </figure>
+        <div class="about-features">
+          <h3 data-rise>What it has</h3>
           <ul data-bind="features">
             <li>Pocketing glass walls on the ground floor</li>
             <li>60-foot heated lap pool</li>
@@ -170,8 +174,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="homes.js?v=30"></script>
-  <script src="home.js?v=30"></script>
+  <script src="homes.js?v=34"></script>
+  <script src="home.js?v=34"></script>
   <span id="page-end" hidden></span>
 </body>
 </html>

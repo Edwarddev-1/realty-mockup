@@ -72,6 +72,8 @@
 
   if (!window.gsap || !window.ScrollTrigger || reduce) { restoreScroll(); return; }
   gsap.registerPlugin(ScrollTrigger);
+  // a phone's address bar showing and hiding resizes the viewport; don't re-measure the pinned panel for that
+  ScrollTrigger.config({ ignoreMobileResize: true });
   document.documentElement.classList.add('motion');
 
   /* ---------- Arrival: the name, then the curtain lifts (first visit in a session only) ---------- */
@@ -199,7 +201,9 @@
   // The coast loop plays only while the footer is on screen.
   function footerFilm() {
     const film = $('.footer-film');
-    if (!film || reduce) return;
+    // tall screens get a tall cut of the film (1 MB), wide screens a 720p cut (3.7 MB); data-saver keeps the still frame
+    if (!film || reduce || (navigator.connection && navigator.connection.saveData)) return;
+    if (window.matchMedia('(max-aspect-ratio: 4/5)').matches) film.poster = 'assets/footer-film-portrait-poster.jpg';
     const check = () => {
       const r = film.getBoundingClientRect();
       const near = r.top < window.innerHeight + 200 && r.bottom > -200;

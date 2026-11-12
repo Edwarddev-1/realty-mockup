@@ -5,6 +5,15 @@
   document.documentElement.classList.remove('no-js');
 
   const money = (v) => '$' + Math.round(v).toLocaleString('en-US');
+  // the same Unsplash photograph at several widths, so a phone downloads a phone-sized file
+  const sized = (url, w) => {
+    const w0 = +(url.match(/[?&]w=(\d+)/) || [])[1];
+    const h0 = +(url.match(/[?&]h=(\d+)/) || [])[1];
+    let out = url.replace(/([?&])w=\d+/, `$1w=${w}`);
+    if (h0 && w0) out = out.replace(/([?&])h=\d+/, `$1h=${Math.round((h0 * w) / w0)}`);
+    return out;
+  };
+  const srcsetFor = (url, widths) => widths.map((w) => `${sized(url, w)} ${w}w`).join(', ');
   // 25% of a 2.5% buyer's-agent fee, rounded to the nearest $50 (same rule as the home page)
   const creditFor = (price) => Math.round((price * 0.025 * 0.25) / 50) * 50;
 
@@ -24,16 +33,29 @@
     bind('line').forEach((el) => (el.textContent = home.line));
     bind('price').forEach((el) => (el.textContent = money(home.price)));
     bind('credit').forEach((el) => (el.textContent = money(creditFor(home.price))));
-    bind('hero').forEach((el) => { el.src = home.hero; });
+    bind('hero').forEach((el) => {
+      el.srcset = srcsetFor(home.hero, [828, 1280, 1920, 2400]); el.sizes = '100vw'; el.src = home.hero;
+      if (window.khArtDirect) window.khArtDirect(el, home.hero, 2.2, 0.6);
+    });
     bind('facts').forEach((el) => {
       el.innerHTML = home.facts.map(([n, label]) => `<div><dt>${label}</dt><dd>${n}</dd></div>`).join('');
     });
     bind('about').forEach((el) => { el.innerHTML = home.about.map((p) => `<p>${p}</p>`).join(''); });
-    bind('features').forEach((el) => { el.innerHTML = home.features.map((f) => `<li>${f}</li>`).join(''); });
+    bind('features').forEach((el) => { el.innerHTML = home.features.map((f) => `<li data-rise>${f}</li>`).join(''); });
+    // the house's own photograph, cropped in close on its material
+    if (home.detail) {
+      const [fx, fy, fz] = home.detail;
+      const crop = (w) => `${home.hero.replace(/&w=\d+&q=\d+/, '')}&crop=focalpoint&fp-x=${fx}&fp-y=${fy}&fp-z=${fz}&w=${w}&h=${Math.round(w * 1.25)}&q=80`;
+      bind('detail').forEach((el) => {
+        el.src = crop(720); el.srcset = `${crop(480)} 480w, ${crop(720)} 720w, ${crop(1080)} 1080w`;
+        el.sizes = '(max-width: 680px) 80vw, 38vw'; el.alt = `${home.name} up close`;
+      });
+      bind('detail-cap').forEach((el) => (el.textContent = `${home.name}, up close`));
+    }
     bind('gallery').forEach((el) => {
       const sizes = [[1600, 1000], [900, 1125], [1000, 1000], [1600, 1000]];
       el.innerHTML = home.gallery.map(([src, cap], i) =>
-        `<figure class="room room-${'abcd'[i]}"><div class="room-img"><img src="${src}" alt="${cap}" width="${sizes[i][0]}" height="${sizes[i][1]}" loading="lazy" /></div><figcaption>${cap}</figcaption></figure>`).join('');
+        `<figure class="room room-${'abcd'[i]}"><div class="room-img"><img src="${src}" srcset="${srcsetFor(src, [800, +(src.match(/[?&]w=(\d+)/) || [])[1]])}" sizes="${i === 1 || i === 2 ? '(max-width: 680px) 72vw, 34vw' : '(max-width: 680px) 100vw, 64vw'}" alt="${cap}" width="${sizes[i][0]}" height="${sizes[i][1]}" loading="lazy" /></div><figcaption>${cap}</figcaption></figure>`).join('');
     });
     bind('mailto').forEach((el) => {
       const body = `We would like to see ${home.name} (${home.place}).\nTwo times that suit us:\n1.\n2.\nOur phone number:`;
@@ -41,7 +63,10 @@
     });
     if (next) {
       bind('next').forEach((el) => (el.href = `home.html?id=${next.id}`));
-      bind('next-img').forEach((el) => { el.src = next.hero.replace('w=2400', 'w=2000'); });
+      bind('next-img').forEach((el) => {
+        el.srcset = srcsetFor(next.hero, [828, 1280, 1920, 2400]); el.sizes = '100vw'; el.src = next.hero.replace('w=2400', 'w=2000');
+        if (window.khArtDirect) window.khArtDirect(el, next.hero, 2.0, 0.6);
+      });
       bind('next-name').forEach((el) => (el.textContent = `Next, ${next.name}`));
       bind('next-place').forEach((el) => (el.textContent = `${next.place}, ${money(next.price)}`));
     }
@@ -81,6 +106,7 @@
 
   if (!window.gsap || !window.ScrollTrigger || reduce) return;
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
   document.documentElement.classList.add('motion');
 
   /* ---------- Arrival ---------- */
@@ -127,6 +153,23 @@
     start: 'top 88%', once: true,
     onEnter: (els) => gsap.from(els, { y: 28, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08, overwrite: 'auto' }),
   });
+
+  /* ---------- About: the first paragraph darkens with the scroll; the close-up opens and drifts ---------- */
+  const lead = $('.about-text p');
+  if (lead) {
+    lead.classList.add('about-lead');
+    lead.innerHTML = lead.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+    gsap.to('.about-lead .w', { color: '#14171a', stagger: 0.08, ease: 'none', scrollTrigger: { trigger: lead, start: 'top 85%', end: 'bottom 55%', scrub: 0.6 } });
+  }
+  const detail = $('.about-detail-img');
+  if (detail) {
+    const r = getComputedStyle(detail).borderTopLeftRadius;
+    gsap.fromTo(detail, { clipPath: `inset(12% 10% 12% 10% round ${r})` }, {
+      clipPath: `inset(0% 0% 0% 0% round ${r})`, clearProps: 'clipPath', duration: 1.3, ease: 'expo.out',
+      scrollTrigger: { trigger: detail, start: 'top 88%', once: true },
+    });
+    gsap.fromTo($('img', detail), { scale: 1.18, yPercent: -4 }, { scale: 1.02, yPercent: 4, ease: 'none', scrollTrigger: { trigger: detail, start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
+  }
 
   /* ---------- Rooms open from a smaller frame as they arrive ---------- */
   $$('.room-img').forEach((el) => {
